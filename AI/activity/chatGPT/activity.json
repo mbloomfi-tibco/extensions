@@ -17,7 +17,7 @@
             "enabled": true
         }
     },
-    "ref": "github.com/mbloomfi-tibco/extensions/flogo-chatgpt/activity/chatGPT",
+    "ref": "github.com/mbloomfi-tibco/extensions/AI/activity/chatGPT",
     "inputs":[
     {
       "name": "apiKey",
