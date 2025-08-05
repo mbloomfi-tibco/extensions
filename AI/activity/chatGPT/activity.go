@@ -11,7 +11,11 @@ import (
 	"github.com/project-flogo/core/activity"
 )
 
-var activityMetadata = NewMetadata()
+var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
+
+func init() {
+	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
+}
 
 type ChatRequest struct {
 	Model    string      `json:"model"`
@@ -36,8 +40,9 @@ func New(ctx context.Context, settings map[string]interface{}) (activity.Activit
 	return &Activity{}, nil
 }
 
+// Metadata returns the activity's metadata
 func (a *Activity) Metadata() *activity.Metadata {
-	return activityMetadata
+	return activityMd
 }
 
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {

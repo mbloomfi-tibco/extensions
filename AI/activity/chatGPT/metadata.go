@@ -1,35 +1,39 @@
 package chatGPT
 
-import "github.com/project-flogo/core/activity"
+import "github.com/project-flogo/core/data/coerce"
 
-var jsonMetadata = `{
-  "name": "chatgpt-client",
-  "version": "1.0.0",
-  "title": "ChatGPT Client",
-  "description": "Flogo activity to call ChatGPT API",
-  "inputs":[
-    {
-      "name": "apiKey",
-      "type": "string"
-    },
-    {
-      "name": "model",
-      "type": "string"
-    },
-    {
-      "name": "prompt",
-      "type": "string"
-    }
-  ],
-  "outputs":[
-    {
-      "name": "response",
-      "type": "string"
-    }
-  ]
-}`
+type Settings struct {
+	ASetting string `md:"aSetting,required"`
+}
 
-// NewMetadata returns the activity metadata
-func NewMetadata() *activity.Metadata {
-	return activity.NewMetadataFromJson(jsonMetadata)
+type Input struct {
+	AnInput string `md:"anInput,required"`
+}
+
+func (r *Input) FromMap(values map[string]interface{}) error {
+	strVal, _ := coerce.ToString(values["anInput"])
+	r.AnInput = strVal
+	return nil
+}
+
+func (r *Input) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"anInput": r.AnInput,
+	}
+}
+
+type Output struct {
+	AnOutput string `md:"anOutput"`
+}
+
+func (o *Output) FromMap(values map[string]interface{}) error {
+	strVal, _ := coerce.ToString(values["anOutput"])
+	o.AnOutput = strVal
+	return nil
+}
+
+func (o *Output) ToMap() map[string]interface{} {
+	return map[string]interface{}{
+		"anOutput": o.AnOutput,
+	}
 }
