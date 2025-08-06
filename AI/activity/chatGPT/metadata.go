@@ -6,19 +6,32 @@ type Settings struct {
 	ASetting string `md:"aSetting,required"`
 }
 
+// Input corresponds to activity.json inputs
 type Input struct {
 	apiKey string `md:"apiKey,required"`
 	model  string `md:"model,required"`
 	prompt string `md:"prompt,required"`
 }
 
-func (r *Input) FromMap(values map[string]interface{}) error {
-	strApiKey, _ := coerce.ToString(values["apiKey"])
-	r.apiKey = strApiKey
-	strModel, _ := coerce.ToString(values["model"])
-	r.model = strModel
-	strPrompt, _ := coerce.ToString(values["prompt"])
-	r.prompt = strPrompt
+// FromMap converts a map to Input struct
+func (i *Input) FromMap(values map[string]interface{}) error {
+	var err error
+
+	i.apiKey, err = coerce.ToString(values["apiKey"])
+	if err != nil {
+		return err
+	}
+
+	i.model, err = coerce.ToString(values["model"])
+	if err != nil {
+		return err
+	}
+
+	i.prompt, err = coerce.ToString(values["prompt"])
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
