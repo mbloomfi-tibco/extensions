@@ -21,15 +21,18 @@
     "inputs":[
     {
       "name": "apiKey",
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     {
       "name": "model",
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     {
       "name": "prompt",
-      "type": "string"
+      "type": "string",
+      "required": true
     }
   ],
   "outputs":[

@@ -7,33 +7,41 @@ type Settings struct {
 }
 
 type Input struct {
-	AnInput string `md:"anInput,required"`
+	apiKey string `md:"apiKey,required"`
+	model  string `md:"model,required"`
+	prompt string `md:"prompt,required"`
 }
 
 func (r *Input) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["anInput"])
-	r.AnInput = strVal
+	strApiKey, _ := coerce.ToString(values["apiKey"])
+	r.apiKey = strApiKey
+	strModel, _ := coerce.ToString(values["model"])
+	r.apiKey = strModel
+	strPrompt, _ := coerce.ToString(values["prompt"])
+	r.apiKey = strPrompt
 	return nil
 }
 
 func (r *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"anInput": r.AnInput,
+		"apiKey": r.apiKey,
+		"model":  r.model,
+		"prompt": r.prompt,
 	}
 }
 
 type Output struct {
-	AnOutput string `md:"anOutput"`
+	response string `md:"response"`
 }
 
 func (o *Output) FromMap(values map[string]interface{}) error {
-	strVal, _ := coerce.ToString(values["anOutput"])
-	o.AnOutput = strVal
+	strVal, _ := coerce.ToString(values["response"])
+	o.response = strVal
 	return nil
 }
 
 func (o *Output) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		"anOutput": o.AnOutput,
+		"response": o.response,
 	}
 }
