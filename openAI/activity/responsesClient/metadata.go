@@ -1,4 +1,4 @@
-package chatGPT
+package responsesClient
 
 import (
 	"github.com/project-flogo/core/data/coerce"
@@ -49,18 +49,29 @@ type Input struct {
 
 // FromMap populates the struct from the activity's inputs.
 func (i *Input) FromMap(values map[string]interface{}) error {
+
 	if values == nil {
 		return nil
 	}
 
+	// Todo Refactor this code to make efficient.
 	var err error
 	i.ApiKey, err = coerce.ToObject(values[iAPIKey])
+	if err != nil {
+		return err
+	}
+
 	i.Model, err = coerce.ToObject(values[iModel])
+	if err != nil {
+		return err
+	}
+
 	i.Prompt, err = coerce.ToObject(values[iPrompt])
 
 	if err != nil {
 		return err
 	}
+
 	return nil
 }
 

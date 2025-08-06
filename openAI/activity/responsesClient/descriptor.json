@@ -4,11 +4,13 @@
   "type": "flogo:activity",
   "title": "ChatGPT Client",
   "author": "Mark Bloomfield",
-  "ref": "github.com/mbloomfi-tibco/extensions/AI/activity/chatGPT",
+  "ref": "github.com/mbloomfi-tibco/extensions/openAI/activity/responsesClient",
   "display": {
-    "category": "AI",
+    "category": "openAI",
     "visible": true,
-    "description": "This activity executes requests to chatGPT"
+    "description": "This activity executes requests to openAPI responses API",
+    "smallIcon": "icons/openAPISmall.png",
+		"largeIcon": "icons/openAPILarge.png"
   },
   "feature": {
     "retry": {

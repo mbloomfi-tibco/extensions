@@ -1,4 +1,4 @@
-module github.com/mbloomfi-tibco/extensions/AI
+module github.com/mbloomfi-tibco/extensions/openAI
 
 go 1.23.0
 
