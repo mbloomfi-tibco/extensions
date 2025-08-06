@@ -16,9 +16,9 @@ func (r *Input) FromMap(values map[string]interface{}) error {
 	strApiKey, _ := coerce.ToString(values["apiKey"])
 	r.apiKey = strApiKey
 	strModel, _ := coerce.ToString(values["model"])
-	r.apiKey = strModel
+	r.model = strModel
 	strPrompt, _ := coerce.ToString(values["prompt"])
-	r.apiKey = strPrompt
+	r.prompt = strPrompt
 	return nil
 }
 
