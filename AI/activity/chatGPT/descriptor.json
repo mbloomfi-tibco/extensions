@@ -1,24 +1,38 @@
-
 {
-    "name": "chatgpt",
-    "version": "1.0.1",
-    "type": "flogo:activity",
-    "title": "ChatGPT Client",
-    "author": "Mark Bloomfield",
-    "display": {
-        "category": "AI",
-        "visible": true,
-        "description": "This activity executes requests to chatGPT",
-        "smallIcon": "icons/chatgpt@2x.png",
-	    	"largeIcon": "icons/chatgpt@3x.png"
-    },
-    "feature": {
-        "retry": {
-            "enabled": true
-        }
-    },
-    "ref": "github.com/mbloomfi-tibco/extensions/AI/activity/chatGPT",
-    "inputs":[
+  "name": "chatgpt",
+  "version": "1.0.1",
+  "type": "flogo:activity",
+  "title": "ChatGPT Client",
+  "author": "Mark Bloomfield",
+  "ref": "github.com/mbloomfi-tibco/extensions/AI/activity/chatGPT",
+  "display": {
+    "category": "AI",
+    "visible": true,
+    "description": "This activity executes requests to chatGPT"
+  },
+  "feature": {
+    "retry": {
+      "enabled": true
+    }
+  },
+  "settings": [
+    {
+      "name": "outputFormat",
+      "type": "string",
+      "required": false,
+      "value": "json",
+      "display": {
+        "name": "Output Format",
+        "description": "The format of the result data passed back by the plugin"
+      },
+      "allowed": [
+        "json",
+        "string",
+        "yaml"
+      ]
+    }
+  ],
+  "inputs": [
     {
       "name": "apiKey",
       "type": "string",
@@ -35,7 +49,7 @@
       "required": true
     }
   ],
-  "outputs":[
+  "outputs": [
     {
       "name": "response",
       "type": "string"

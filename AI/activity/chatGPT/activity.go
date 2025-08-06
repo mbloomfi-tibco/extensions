@@ -2,7 +2,6 @@ package chatGPT
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -11,10 +10,16 @@ import (
 	"github.com/project-flogo/core/activity"
 )
 
+// activityMd is the metadata for the activity.
 var activityMd = activity.ToMetadata(&Settings{}, &Input{}, &Output{})
 
+// Metadata returns the activity's metadata.
+func (a *Activity) Metadata() *activity.Metadata {
+	return activityMd
+}
+
 func init() {
-	_ = activity.Register(&Activity{}) //activity.Register(&Activity{}, New) to create instances using factory method 'New'
+	_ = activity.Register(&Activity{}, New)
 }
 
 type ChatRequest struct {
@@ -34,21 +39,28 @@ type ChatResponse struct {
 }
 
 // Activity is a ChatGPT API activity
-type Activity struct{}
-
-func New(ctx context.Context, settings map[string]interface{}) (activity.Activity, error) {
-	return &Activity{}, nil
+type Activity struct {
+	outputFormat string
 }
 
-// Metadata returns the activity's metadata
-func (a *Activity) Metadata() *activity.Metadata {
-	return activityMd
+// New creates a new instance of the Activity.
+func New(ctx activity.InitContext) (activity.Activity, error) {
+	s := &Settings{}
+	err := s.FromMap(ctx.Settings())
+	if err != nil {
+		return nil, err
+	}
+
+	act := &Activity{
+		outputFormat: s.OutputFormat,
+	}
+	return act, nil
 }
 
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	apiKey := ctx.GetInput("apiKey").(string)
-	model := ctx.GetInput("model").(string)
-	prompt := ctx.GetInput("prompt").(string)
+	apiKey := ctx.GetInput(iAPIKey).(string)
+	model := ctx.GetInput(iModel).(string)
+	prompt := ctx.GetInput(iPrompt).(string)
 
 	reqBody := ChatRequest{
 		Model: model,
@@ -90,6 +102,6 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		return false, fmt.Errorf("no response from ChatGPT")
 	}
 
-	ctx.SetOutput("response", chatResp.Choices[0].Message.Content)
+	ctx.SetOutput(oResponse, chatResp.Choices[0].Message.Content)
 	return true, nil
 }
