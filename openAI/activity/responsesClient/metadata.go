@@ -29,6 +29,7 @@ type Settings struct {
 // FromMap populates the settings struct from a map.
 func (s *Settings) FromMap(values map[string]interface{}) error {
 	if values == nil {
+		s.ApiKey = ""
 		s.OutputFormat = "json"
 		return nil
 	}
