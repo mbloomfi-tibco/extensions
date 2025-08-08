@@ -47,6 +47,9 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		apiKey:       s.ApiKey,
 		outputFormat: s.OutputFormat,
 	}
+
+	log.Printf("Activity initialized with API Key: %s and Output Format: %s", act.apiKey, act.outputFormat)
+
 	return act, nil
 }
 
