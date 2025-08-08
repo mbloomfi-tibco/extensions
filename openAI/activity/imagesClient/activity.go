@@ -8,8 +8,10 @@ package imagesClient
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
@@ -89,23 +91,21 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	b64Data := imgResp.Data[0].B64JSON
 
 	// Decode the Base64 string to bytes
-	//	imgBytes, err := base64.StdEncoding.DecodeString(b64Data)
-	//	if err != nil {
-	//		fmt.Printf("Base64 decode error: %v\n", err)
-	//		return
-	//	}
+	imgBytes, err := base64.StdEncoding.DecodeString(b64Data)
+	if err != nil {
+		fmt.Printf("Base64 decode error: %v\n", err)
+		return false, err
+	}
 
 	// Save to file
-	//	fileName := "generated.png"
-	//	if err := os.WriteFile(fileName, imgBytes, 0644); err != nil {
-	//		fmt.Printf("File save error: %v\n", err)
-	//		return true, err
-	//}
+	fileName := "generated.png"
+	if err := os.WriteFile(fileName, imgBytes, 0644); err != nil {
+		fmt.Printf("File save error: %v\n", err)
+		return true, err
+	}
 
-	//fmt.Printf("Image saved as %s\n", fileName)
+	fmt.Printf("Image saved as %s\n", fileName)
 
-	//outputString := "Image g
-
-	ctx.SetOutput(oResponse, b64Data)
+	ctx.SetOutput(oResponse, "Image generated successfully")
 	return true, nil
 }
