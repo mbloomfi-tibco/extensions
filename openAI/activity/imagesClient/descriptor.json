@@ -1,14 +1,14 @@
 {
-  "name": "chatgpt-responses-client",
+  "name": "openai-images-client",
   "version": "1.0.1",
   "type": "flogo:activity",
-  "title": "Responses Client",
+  "title": "Create Image",
   "author": "Mark Bloomfield",
-  "ref": "github.com/mbloomfi-tibco/extensions/openAI/activity/responsesClient",
+  "ref": "github.com/mbloomfi-tibco/extensions/openAI/activity/imagesClient",
   "display": {
     "category": "openAI",
     "visible": true,
-    "description": "This activity executes requests to openAPI responses API",
+    "description": "This activity generates images using the images API",
     "smallIcon": "icons/openAPISmall.png",
     "largeIcon": "icons/openAPILarge.png"
   },

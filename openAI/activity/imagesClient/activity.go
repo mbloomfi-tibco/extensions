@@ -1,4 +1,4 @@
-package responsesClient
+package imagesClient
 
 /*
 * Copyright © 2023 - 2024. Cloud Software Group, Inc.
@@ -13,7 +13,6 @@ import (
 
 	"github.com/openai/openai-go"
 	"github.com/openai/openai-go/option"
-	"github.com/openai/openai-go/responses"
 	"github.com/project-flogo/core/activity"
 )
 
@@ -69,39 +68,44 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	clientCtx := context.Background()
 
-	params := responses.ResponseNewParams{
-		Model: openai.ChatModelGPT4o, // or another supported model
-		Input: responses.ResponseNewParamsInputUnion{
-			OfString: openai.String(prompt),
-		},
-		MaxOutputTokens: openai.Int(256),
-		Store:           openai.Bool(false),
-	}
-
-	// Send the request
-	resp, err := oaiClient.Responses.New(clientCtx, params)
-
+	// Request an image
+	imgResp, err := oaiClient.Images.Generate(clientCtx, openai.ImageGenerateParams{
+		Model:  openai.ImageModelGPTImage1, // "gpt-image-1"
+		Prompt: prompt,
+		Size:   "1024x1024",
+		// ResponseFormat: openai.F("b64_json"), // Optional, defaults to base64
+	})
 	if err != nil {
-		log.Fatalf("Responses.New error: %v", err)
+		fmt.Printf("Image generation error: %v\n", err)
+		return false, err
 	}
 
-	// Display the output
-	fmt.Println("Response ID:", resp.ID)
-	fmt.Println("Model:", resp.Model)
-	fmt.Println("Output Text:")
-
-	outputString := "ChatGPT Reponse: "
-
-	for _, output := range resp.Output {
-		if output.Type == "message" {
-			for _, content := range output.Content {
-				if content.Type == "output_text" {
-					outputString += content.Text
-				}
-			}
-		}
+	if len(imgResp.Data) == 0 {
+		fmt.Println("No image data returned")
+		return false, fmt.Errorf("no image data returned from OpenAI API")
 	}
 
-	ctx.SetOutput(oResponse, outputString)
+	// Get the Base64 data
+	b64Data := imgResp.Data[0].B64JSON
+
+	// Decode the Base64 string to bytes
+	//	imgBytes, err := base64.StdEncoding.DecodeString(b64Data)
+	//	if err != nil {
+	//		fmt.Printf("Base64 decode error: %v\n", err)
+	//		return
+	//	}
+
+	// Save to file
+	//	fileName := "generated.png"
+	//	if err := os.WriteFile(fileName, imgBytes, 0644); err != nil {
+	//		fmt.Printf("File save error: %v\n", err)
+	//		return true, err
+	//}
+
+	//fmt.Printf("Image saved as %s\n", fileName)
+
+	//outputString := "Image g
+
+	ctx.SetOutput(oResponse, b64Data)
 	return true, nil
 }
