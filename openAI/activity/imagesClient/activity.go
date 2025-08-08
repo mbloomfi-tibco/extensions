@@ -79,12 +79,12 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 		// ResponseFormat: openai.F("b64_json"), // Optional, defaults to base64
 	})
 	if err != nil {
-		fmt.Printf("Image generation error: %v\n", err)
+		log.Printf("Image generation error: %v\n", err)
 		return false, err
 	}
 
 	if len(imgResp.Data) == 0 {
-		fmt.Println("No image data returned")
+		log.Printf("No image data returned")
 		return false, fmt.Errorf("no image data returned from OpenAI API")
 	}
 
@@ -94,18 +94,18 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	// Decode the Base64 string to bytes
 	imgBytes, err := base64.StdEncoding.DecodeString(b64Data)
 	if err != nil {
-		fmt.Printf("Base64 decode error: %v\n", err)
+		log.Printf("Base64 decode error: %v\n", err)
 		return false, err
 	}
 
 	// Save to file
 
 	if err := os.WriteFile(fileName, imgBytes, 0644); err != nil {
-		fmt.Printf("File save error: %v\n", err)
+		log.Printf("File save error: %v\n", err)
 		return true, err
 	}
 
-	fmt.Printf("Image saved as %s\n", fileName)
+	log.Printf("Image saved as %s\n", fileName)
 
 	ctx.SetOutput(oResponse, "Image generated successfully")
 	return true, nil
