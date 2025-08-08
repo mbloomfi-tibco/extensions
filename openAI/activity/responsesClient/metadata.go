@@ -23,7 +23,7 @@ const (
 // Settings defines configuration options for your activity
 type Settings struct {
 	ApiKey       string `md:"apiKey, required"`
-	OutputFormat string `md:"OutputFormat"` // Flogo metadata tag
+	OutputFormat string `md:"outputFormat"` // Flogo metadata tag
 }
 
 // FromMap populates the settings struct from a map.
@@ -41,17 +41,15 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 		if err != nil {
 			return err
 		}
-	}
 
-	if val, ok := values[sAPIKey]; ok && val != nil {
-		s.ApiKey, err = coerce.ToString(val)
-		if err != nil {
-			return err
+		if s.OutputFormat == "" {
+			s.OutputFormat = "json"
 		}
 	}
 
-	if s.OutputFormat == "" {
-		s.OutputFormat = "json"
+	s.ApiKey, err = coerce.ToString(values[sAPIKey])
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -80,6 +78,9 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 	}
 
 	i.Prompt, err = coerce.ToObject(values[iPrompt])
+	if err != nil {
+		return err
+	}
 
 	i.Tool, err = coerce.ToObject(values[iTool])
 	if err != nil {
