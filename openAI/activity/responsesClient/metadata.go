@@ -42,6 +42,14 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 			return err
 		}
 	}
+
+	if val, ok := values[sAPIKey]; ok && val != nil {
+		s.ApiKey, err = coerce.ToString(val)
+		if err != nil {
+			return err
+		}
+	}
+
 	if s.OutputFormat == "" {
 		s.OutputFormat = "json"
 	}
