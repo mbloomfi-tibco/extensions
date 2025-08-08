@@ -17,6 +17,7 @@ const (
 	iModel        = "model"
 	iPrompt       = "prompt"
 	iTool         = "tool"
+	iFileName     = "filename"
 	oResponse     = "response"
 )
 
@@ -57,9 +58,10 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 
 // Input defines what data the activity receives
 type Input struct {
-	Model  map[string]interface{} `md:"model, required"`
-	Prompt map[string]interface{} `md:"prompt, required"`
-	Tool   map[string]interface{} `md:"tool, required"`
+	Model    map[string]interface{} `md:"model, required"`
+	Prompt   map[string]interface{} `md:"prompt, required"`
+	Tool     map[string]interface{} `md:"tool, required"`
+	FileName map[string]interface{} `md:"filename, required"`
 }
 
 // FromMap populates the struct from the activity's inputs.
@@ -87,6 +89,11 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 		return err
 	}
 
+	i.FileName, err = coerce.ToObject(values[iFileName])
+	if err != nil {
+		return err
+	}
+
 	if err != nil {
 		return err
 	}
@@ -97,9 +104,10 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 // ToMap converts the struct to a map.
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		iModel:  i.Model,
-		iPrompt: i.Prompt,
-		iTool:   i.Tool,
+		iModel:    i.Model,
+		iPrompt:   i.Prompt,
+		iTool:     i.Tool,
+		iFileName: i.FileName,
 	}
 }
 

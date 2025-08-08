@@ -58,6 +58,10 @@
       "name": "tool",
       "type": "string",
       "required": false
+    },{
+      "name": "filename",
+      "type": "string",
+      "required": true
     }
 
   ],

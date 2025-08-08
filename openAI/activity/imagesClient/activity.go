@@ -58,6 +58,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	//model := ctx.GetInput(iModel).(string)
 	prompt := ctx.GetInput(iPrompt).(string)
+	fileName := ctx.GetInput(iFileName).(string)
 	//tool := ctx.GetInput(iTool).(string)
 
 	if a.apiKey == "" {
@@ -98,7 +99,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 
 	// Save to file
-	fileName := "generated.png"
+
 	if err := os.WriteFile(fileName, imgBytes, 0644); err != nil {
 		fmt.Printf("File save error: %v\n", err)
 		return true, err
