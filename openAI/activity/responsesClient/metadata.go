@@ -1,5 +1,11 @@
 package responsesClient
 
+/*
+* Copyright © 2023 - 2024. Cloud Software Group, Inc.
+* This file is subject to the license terms contained
+* in the license file that is distributed with this file.
+ */
+
 import (
 	"github.com/project-flogo/core/data/coerce"
 )
@@ -7,14 +13,16 @@ import (
 // Constants for identifying settings and inputs
 const (
 	sOutputFormat = "outputFormat"
-	iAPIKey       = "apiKey"
+	sAPIKey       = "apiKey"
 	iModel        = "model"
 	iPrompt       = "prompt"
+	iTool         = "tool"
 	oResponse     = "response"
 )
 
 // Settings defines configuration options for your activity
 type Settings struct {
+	ApiKey       string `md:"apiKey, required"`
 	OutputFormat string `md:"OutputFormat"` // Flogo metadata tag
 }
 
@@ -42,9 +50,9 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 
 // Input defines what data the activity receives
 type Input struct {
-	ApiKey map[string]interface{} `md:"apiKey, required"`
 	Model  map[string]interface{} `md:"model, required"`
 	Prompt map[string]interface{} `md:"prompt, required"`
+	Tool   map[string]interface{} `md:"tool, required"`
 }
 
 // FromMap populates the struct from the activity's inputs.
@@ -56,10 +64,6 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 
 	// Todo Refactor this code to make efficient.
 	var err error
-	i.ApiKey, err = coerce.ToObject(values[iAPIKey])
-	if err != nil {
-		return err
-	}
 
 	i.Model, err = coerce.ToObject(values[iModel])
 	if err != nil {
@@ -67,6 +71,11 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 	}
 
 	i.Prompt, err = coerce.ToObject(values[iPrompt])
+
+	i.Tool, err = coerce.ToObject(values[iTool])
+	if err != nil {
+		return err
+	}
 
 	if err != nil {
 		return err
@@ -78,9 +87,9 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 // ToMap converts the struct to a map.
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		iAPIKey: i.ApiKey,
 		iModel:  i.Model,
 		iPrompt: i.Prompt,
+		iTool:   i.Tool,
 	}
 }
 

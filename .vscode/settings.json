@@ -1,3 +1,4 @@
 {
-    "flogo.extensions.local": "D:\\projects\\extensions"
+    "flogo.extensions.local": "D:\\projects\\extensions",
+    "go.toolsEnvVars": {}
 }

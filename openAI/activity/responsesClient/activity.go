@@ -1,12 +1,19 @@
 package responsesClient
 
-import (
-	"bytes"
-	"encoding/json"
-	"fmt"
-	"io"
-	"net/http"
+/*
+* Copyright © 2023 - 2024. Cloud Software Group, Inc.
+* This file is subject to the license terms contained
+* in the license file that is distributed with this file.
+ */
 
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/openai/openai-go"
+	"github.com/openai/openai-go/option"
+	"github.com/openai/openai-go/responses"
 	"github.com/project-flogo/core/activity"
 )
 
@@ -22,24 +29,9 @@ func init() {
 	_ = activity.Register(&Activity{}, New)
 }
 
-type ChatRequest struct {
-	Model    string      `json:"model"`
-	Messages []ChatEntry `json:"messages"`
-}
-
-type ChatEntry struct {
-	Role    string `json:"role"`
-	Content string `json:"content"`
-}
-
-type ChatResponse struct {
-	Choices []struct {
-		Message ChatEntry `json:"message"`
-	} `json:"choices"`
-}
-
 // Activity is a ChatGPT API activity
 type Activity struct {
+	apiKey       string
 	outputFormat string
 }
 
@@ -52,56 +44,60 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 	}
 
 	act := &Activity{
+		apiKey:       s.ApiKey,
 		outputFormat: s.OutputFormat,
 	}
 	return act, nil
 }
 
 func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
-	apiKey := ctx.GetInput(iAPIKey).(string)
-	model := ctx.GetInput(iModel).(string)
+
+	//model := ctx.GetInput(iModel).(string)
 	prompt := ctx.GetInput(iPrompt).(string)
+	//tool := ctx.GetInput(iTool).(string)
 
-	reqBody := ChatRequest{
-		Model: model,
-		Messages: []ChatEntry{
-			{Role: "user", Content: prompt},
+	if a.apiKey == "" {
+		log.Fatal("Missing openAPI key")
+	}
+
+	oaiClient := openai.NewClient(
+		option.WithAPIKey(a.apiKey),
+	)
+
+	clientCtx := context.Background()
+
+	params := responses.ResponseNewParams{
+		Model: openai.ChatModelGPT4o, // or another supported model
+		Input: responses.ResponseNewParamsInputUnion{
+			OfString: openai.String(prompt),
 		},
+		MaxOutputTokens: openai.Int(256),
 	}
 
-	bodyBytes, _ := json.Marshal(reqBody)
+	// Send the request
+	resp, err := oaiClient.Responses.New(clientCtx, params)
 
-	req, err := http.NewRequest("POST", "https://api.openai.com/v1/chat/completions", bytes.NewBuffer(bodyBytes))
 	if err != nil {
-		return false, err
+		log.Fatalf("Responses.New error: %v", err)
 	}
 
-	req.Header.Set("Authorization", "Bearer "+apiKey)
-	req.Header.Set("Content-Type", "application/json")
+	// Display the output
+	fmt.Println("Response ID:", resp.ID)
+	fmt.Println("Model:", resp.Model)
+	fmt.Println("Output Text:")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return false, err
-	}
-	defer resp.Body.Close()
+	outputString := "ChatGPT Reponse: "
 
-	if resp.StatusCode != http.StatusOK {
-		return false, fmt.Errorf("OpenAI API error: %s", resp.Status)
-	}
-
-	respBody, _ := io.ReadAll(resp.Body)
-
-	var chatResp ChatResponse
-	err = json.Unmarshal(respBody, &chatResp)
-	if err != nil {
-		return false, err
+	for _, output := range resp.Output {
+		if output.Type == "message" {
+			for _, content := range output.Content {
+				if content.Type == "output_text" {
+					outputString += content.Text
+				}
+			}
+		}
 	}
 
-	if len(chatResp.Choices) == 0 {
-		return false, fmt.Errorf("no response from ChatGPT")
-	}
-
-	ctx.SetOutput(oResponse, chatResp.Choices[0].Message.Content)
+	ctx.SetOutput(oResponse, outputString)
 	return true, nil
 }

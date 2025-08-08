@@ -10,7 +10,7 @@
     "visible": true,
     "description": "This activity executes requests to openAPI responses API",
     "smallIcon": "icons/openAPISmall.png",
-		"largeIcon": "icons/openAPILarge.png"
+    "largeIcon": "icons/openAPILarge.png"
   },
   "feature": {
     "retry": {
@@ -18,6 +18,16 @@
     }
   },
   "settings": [
+    {
+      "name": "apiKey",
+      "type": "string",
+      "required": true,
+      "display": {
+        "name": "OpenAI API Key",
+        "description": "OpenAI key that is required to authenticate with the OpenAI API",
+        "appPropertySupport": true
+      }
+    },
     {
       "name": "outputFormat",
       "type": "string",
@@ -36,11 +46,6 @@
   ],
   "inputs": [
     {
-      "name": "apiKey",
-      "type": "string",
-      "required": true
-    },
-    {
       "name": "model",
       "type": "string",
       "required": true
@@ -49,7 +54,12 @@
       "name": "prompt",
       "type": "string",
       "required": true
+    },{
+      "name": "tool",
+      "type": "string",
+      "required": false
     }
+
   ],
   "outputs": [
     {
