@@ -4,7 +4,7 @@
   "type": "flogo:activity",
   "title": "Generate Embedding",
   "author": "Mark Bloomfield",
-  "ref": "github.com/mbloomfi-tibco/extensions/openAI/activity/ebeddingsClient",
+  "ref": "github.com/mbloomfi-tibco/extensions/openAI/activity/embeddingsClient",
   "display": {
     "category": "openAI",
     "visible": true,
