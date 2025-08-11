@@ -10,13 +10,21 @@ The Flogo ChatGPT extesion acts as a client for the APIs exposed from the ChatGP
 Mini Roadmap 
 ------------
 
-| Client Activity                     | Status                        |
-| ----------- ------------------------| ------------------------------|
-| Responses API                       | In Dev for text and Images    | 
-| Chat Completion API                 | Currently out of scope        |
+| Client Activity                     | Status                        | OpenAI Go API Library Status  |
+| ----------- ------------------------| ------------------------------| ------------------------------|
+| Responses API                       | In Dev for text and Images    | v1.12.0                       |
+| Images API                          | In Dev for text and Images    | v1.12.0                       |
+| Embedings API                       | In Dev for text and Images    | v1.12.0                       | 
+| Chat API                            | Currently out of scope        | 
+| Completions API                     | Currently out of scope        |
 | Realtime API                        | Currently out of scope        |  
 | Assistants API                      | Currently out of scope        |
 | Batch API                           | Currently out of scope        |
+| Containers API                      | Currently out of scope        |
+| Files API                           | Currently out of scope        |
+| Fine Tunning API                    | Currently out of scope        |
+| Graders API                         | Currently out of scope        |
+| Moderrations API                    | Currently out of scope        | 
 
 ChatGPT Use Cases 
 -----------------
@@ -25,6 +33,7 @@ ChatGPT Use Cases
 | ----------- ------------------------| ------------------------------|
 | Text Generation                     | In Dev                        | 
 | Image Generation                    | In Dev                        |
+| Audio Generation                    | Currently out of scope        |
 | Deep Research                       | Currently out of scope        |  
 | Embeddings                          | In Dev                        |
 | Moderation                          | Currently out of scope        |
