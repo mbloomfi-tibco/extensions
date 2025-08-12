@@ -8,7 +8,6 @@ package embeddingsClient
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/openai/openai-go"
@@ -74,7 +73,6 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			Input: openai.EmbeddingNewParamsInputUnion{
 				OfString: openai.String(embeddingText),
 			},
-			Dimensions:     openai.Int(1),
 			EncodingFormat: openai.EmbeddingNewParamsEncodingFormatFloat,
 		},
 	)
@@ -85,8 +83,8 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	// Print vector length and first few values
 	vector := resp.Data[0].Embedding
-	fmt.Printf("Embedding length: %d\n", len(vector))
-	fmt.Printf("First 5 values: %v\n", vector[:5])
+	//fmt.Printf("Embedding length: %d\n", len(vector))
+	//	fmt.Printf("First 5 values: %v\n", vector[:5])
 
 	ctx.SetOutput(oResponse, vector)
 	return true, nil
