@@ -75,11 +75,11 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 			Content: []responses.InputContentPart{
 				responses.InputContentPartText{
 					Type: responses.InputContentPartTextTypeText,
-					Text: "Describe this image in detail.",
+					Text: prompt,
 				},
 				responses.InputContentPartImage{
 					Type:     responses.InputContentPartImageTypeImage,
-					ImageURL: "data:image/jpeg;base64," + base64String,
+					ImageURL: "data:image/png;base64," + base64String,
 				},
 			},
 		},
