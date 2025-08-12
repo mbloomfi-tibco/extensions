@@ -41,13 +41,13 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 	var err error
 
 	if val, ok := values[sInputFormat]; ok && val != nil {
-		s.OutputFormat, err = coerce.ToString(val)
+		s.inputFormat, err = coerce.ToString(val)
 		if err != nil {
 			return err
 		}
 
-		if s.OutputFormat == "" {
-			s.OutputFormat = "text"
+		if s.inputFormat == "" {
+			s.inputFormat = "text"
 		}
 	}
 

@@ -34,7 +34,7 @@
       "required": false,
       "value": "text",
       "display": {
-        "name": "Output Format",
+        "name": "Input Format",
         "description": "The format of the result data passed back by the plugin"
       },
       "allowed": [
