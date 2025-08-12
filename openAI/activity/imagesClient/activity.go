@@ -47,7 +47,6 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 
 	act := &Activity{
 		apiKey:       s.ApiKey,
-		inputFormat:  s.InputFormat,
 		outputFormat: s.OutputFormat,
 	}
 
