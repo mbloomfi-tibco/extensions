@@ -35,12 +35,11 @@
       "value": "text",
       "display": {
         "name": "Input Format",
-        "description": "The format of the result data passed back by the plugin"
+        "description": "The format of the result data passed into the plugin"
       },
       "allowed": [
         "text",
-        "image/jpeg;base64",
-        "image/png;base64"
+        "json"
       ]
     },
     {

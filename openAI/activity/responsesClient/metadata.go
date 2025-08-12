@@ -12,9 +12,9 @@ import (
 
 // Constants for identifying settings and inputs
 const (
-	sOutputFormat = "outputFormat"
 	sAPIKey       = "apiKey"
 	sInputFormat  = "inputFormat"
+	sOutputFormat = "outputFormat"
 	iModel        = "model"
 	iPrompt       = "prompt"
 	iTool         = "tool"
@@ -25,7 +25,7 @@ const (
 // Settings defines configuration options for your activity
 type Settings struct {
 	ApiKey       string `md:"apiKey, required"`
-	inputFormat  string `md:"inputFormat"`  // Flogo metadata tag
+	InputFormat  string `md:"inputFormat"`  // Flogo metadata tag
 	OutputFormat string `md:"outputFormat"` // Flogo metadata tag
 }
 
@@ -33,7 +33,7 @@ type Settings struct {
 func (s *Settings) FromMap(values map[string]interface{}) error {
 	if values == nil {
 		s.ApiKey = ""
-		s.inputFormat = "text"
+		s.InputFormat = "text"
 		s.OutputFormat = "json"
 		return nil
 	}
@@ -41,18 +41,20 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 	var err error
 
 	if val, ok := values[sInputFormat]; ok && val != nil {
-		s.inputFormat, err = coerce.ToString(val)
+		s.InputFormat, err = coerce.ToString(val)
+
 		if err != nil {
 			return err
 		}
 
-		if s.inputFormat == "" {
-			s.inputFormat = "text"
+		if s.InputFormat == "" {
+			s.InputFormat = "text"
 		}
 	}
 
 	if val, ok := values[sOutputFormat]; ok && val != nil {
 		s.OutputFormat, err = coerce.ToString(val)
+
 		if err != nil {
 			return err
 		}
