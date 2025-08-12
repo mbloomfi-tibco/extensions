@@ -90,7 +90,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 							},
 						},
 					},
-					"user_message",
+					"user",
 				),
 			},
 		},
