@@ -110,10 +110,6 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 		return err
 	}
 
-	if err != nil {
-		return err
-	}
-
 	return nil
 }
 
