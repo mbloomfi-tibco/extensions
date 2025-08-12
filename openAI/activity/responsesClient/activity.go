@@ -69,23 +69,33 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	clientCtx := context.Background()
 
+	// imageURL variable is not needed and removed.
+
 	params := responses.ResponseNewParams{
 		Model: openai.ChatModelGPT4_1, // or another supported model
 		Input: responses.ResponseNewParamsInputUnion{
-			Content: []responses.InputContentPart{
-				responses.InputContentPartText{
-					Type: responses.InputContentPartTextTypeText,
-					Text: prompt,
-				},
-				responses.InputContentPartImage{
-					Type:     responses.InputContentPartImageTypeImage,
-					ImageURL: "data:image/png;base64," + base64String,
-				},
+			OfInputItemList: responses.ResponseInputParam{
+				responses.ResponseInputItemParamOfMessage(
+					responses.ResponseInputMessageContentListParam{
+						responses.ResponseInputContentUnionParam{
+							OfInputImage: &responses.ResponseInputImageParam{
+								ImageURL: openai.String("data:image/png;base64," + base64String),
+								Type:     "input_image",
+							},
+						},
+						responses.ResponseInputContentUnionParam{
+							OfInputText: &responses.ResponseInputTextParam{
+								Text: prompt,
+								Type: "input_text",
+							},
+						},
+					},
+					"user_message",
+				),
 			},
 		},
 		MaxOutputTokens: openai.Int(256),
-		Store: openai.Bool(false),
-		ResponseFormat: openai.ResponseFormatText // or other formats like openai.ResponseFormatImage
+		Store:           openai.Bool(false),
 	}
 
 	// Send the request
