@@ -33,7 +33,6 @@ func init() {
 // Activity is a ChatGPT API activity
 type Activity struct {
 	apiKey       string
-	inputFormat  string
 	outputFormat string
 }
 
