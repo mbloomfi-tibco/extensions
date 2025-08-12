@@ -31,6 +31,7 @@ func init() {
 // Activity is a ChatGPT API activity
 type Activity struct {
 	apiKey       string
+	inputFormat  string
 	outputFormat string
 }
 
@@ -44,6 +45,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 
 	act := &Activity{
 		apiKey:       s.ApiKey,
+		inputFormat:  s.InputFormat,
 		outputFormat: s.OutputFormat,
 	}
 
@@ -77,7 +79,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 					responses.ResponseInputMessageContentListParam{
 						responses.ResponseInputContentUnionParam{
 							OfInputImage: &responses.ResponseInputImageParam{
-								ImageURL: openai.String("data:" + a.outputFormat + "," + base64String),
+								ImageURL: openai.String("data:" + a.inputFormat + "," + base64String),
 								Type:     "input_image",
 							},
 						},

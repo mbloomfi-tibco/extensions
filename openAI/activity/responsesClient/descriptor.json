@@ -48,13 +48,13 @@
       "name": "outputFormat",
       "type": "string",
       "required": false,
-      "value": "string",
+      "value": "text",
       "display": {
         "name": "Output Format",
         "description": "The format of the result data passed back by the plugin"
       },
       "allowed": [
-        "string",
+        "text",
         "json"
       ]
     }

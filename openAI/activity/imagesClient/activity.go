@@ -33,6 +33,7 @@ func init() {
 // Activity is a ChatGPT API activity
 type Activity struct {
 	apiKey       string
+	inputFormat  string
 	outputFormat string
 }
 
@@ -46,6 +47,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 
 	act := &Activity{
 		apiKey:       s.ApiKey,
+		inputFormat:  s.InputFormat,
 		outputFormat: s.OutputFormat,
 	}
 

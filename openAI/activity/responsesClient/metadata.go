@@ -34,7 +34,7 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 	if values == nil {
 		s.ApiKey = ""
 		s.InputFormat = "text"
-		s.OutputFormat = "json"
+		s.OutputFormat = "text"
 		return nil
 	}
 
@@ -60,7 +60,7 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 		}
 
 		if s.OutputFormat == "" {
-			s.OutputFormat = "json"
+			s.OutputFormat = "text"
 		}
 	}
 
