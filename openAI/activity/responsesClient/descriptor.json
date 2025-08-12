@@ -39,22 +39,23 @@
       },
       "allowed": [
         "text",
-        "json"
+        "json",
+        "image/jpeg;base64",
+        "image/png;base64"
       ]
     },
     {
       "name": "outputFormat",
       "type": "string",
       "required": false,
-      "value": "json",
+      "value": "string",
       "display": {
         "name": "Output Format",
         "description": "The format of the result data passed back by the plugin"
       },
       "allowed": [
-        "json",
         "string",
-        "yaml"
+        "json"
       ]
     }
   ],

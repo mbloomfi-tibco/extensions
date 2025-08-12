@@ -69,8 +69,6 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 
 	clientCtx := context.Background()
 
-	// imageURL variable is not needed and removed.
-
 	params := responses.ResponseNewParams{
 		Model: openai.ChatModelGPT4_1, // or another supported model
 		Input: responses.ResponseNewParamsInputUnion{
@@ -79,7 +77,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 					responses.ResponseInputMessageContentListParam{
 						responses.ResponseInputContentUnionParam{
 							OfInputImage: &responses.ResponseInputImageParam{
-								ImageURL: openai.String("data:image/png;base64," + base64String),
+								ImageURL: openai.String("data:" + a.outputFormat + "," + base64String),
 								Type:     "input_image",
 							},
 						},
