@@ -29,6 +29,21 @@
       }
     },
     {
+      "name": "inputFormat",
+      "type": "string",
+      "required": false,
+      "value": "text",
+      "display": {
+        "name": "Output Format",
+        "description": "The format of the result data passed back by the plugin"
+      },
+      "allowed": [
+        "text",
+        "image/jpeg;base64",
+        "image/png;base64"
+      ]
+    },
+    {
       "name": "outputFormat",
       "type": "string",
       "required": false,

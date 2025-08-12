@@ -8,7 +8,6 @@ package responsesClient
 
 import (
 	"context"
-	"fmt"
 	"log"
 
 	"github.com/openai/openai-go"
@@ -48,7 +47,7 @@ func New(ctx activity.InitContext) (activity.Activity, error) {
 		outputFormat: s.OutputFormat,
 	}
 
-	log.Printf("Activity initialized with API Key: %s and Output Format: %s", act.apiKey, act.outputFormat)
+	log.Printf("Activity initialized using Output Format: %s", act.outputFormat)
 
 	return act, nil
 }
@@ -58,6 +57,7 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	//model := ctx.GetInput(iModel).(string)
 	prompt := ctx.GetInput(iPrompt).(string)
 	//tool := ctx.GetInput(iTool).(string)
+	base64String := ctx.GetInput(iBase64String).(string)
 
 	if a.apiKey == "" {
 		log.Fatal("Missing openAPI key")
@@ -70,12 +70,22 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	clientCtx := context.Background()
 
 	params := responses.ResponseNewParams{
-		Model: openai.ChatModelGPT4o, // or another supported model
+		Model: openai.ChatModelGPT4_1, // or another supported model
 		Input: responses.ResponseNewParamsInputUnion{
-			OfString: openai.String(prompt),
+			Content: []responses.InputContentPart{
+				responses.InputContentPartText{
+					Type: responses.InputContentPartTextTypeText,
+					Text: "Describe this image in detail.",
+				},
+				responses.InputContentPartImage{
+					Type:     responses.InputContentPartImageTypeImage,
+					ImageURL: "data:image/jpeg;base64," + base64String,
+				},
+			},
 		},
 		MaxOutputTokens: openai.Int(256),
-		Store:           openai.Bool(false),
+		Store: openai.Bool(false),
+		ResponseFormat: openai.ResponseFormatText // or other formats like openai.ResponseFormatImage
 	}
 
 	// Send the request
@@ -86,9 +96,9 @@ func (a *Activity) Eval(ctx activity.Context) (done bool, err error) {
 	}
 
 	// Display the output
-	fmt.Println("Response ID:", resp.ID)
-	fmt.Println("Model:", resp.Model)
-	fmt.Println("Output Text:")
+	log.Println("Response ID:", resp.ID)
+	log.Println("Model:", resp.Model)
+	log.Println("Output Text:")
 
 	outputString := "ChatGPT Reponse: "
 

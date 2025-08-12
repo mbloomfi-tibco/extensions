@@ -14,15 +14,18 @@ import (
 const (
 	sOutputFormat = "outputFormat"
 	sAPIKey       = "apiKey"
+	sInputFormat  = "inputFormat"
 	iModel        = "model"
 	iPrompt       = "prompt"
 	iTool         = "tool"
+	iBase64String = "base64String"
 	oResponse     = "response"
 )
 
 // Settings defines configuration options for your activity
 type Settings struct {
 	ApiKey       string `md:"apiKey, required"`
+	inputFormat  string `md:"inputFormat"`  // Flogo metadata tag
 	OutputFormat string `md:"outputFormat"` // Flogo metadata tag
 }
 
@@ -30,11 +33,23 @@ type Settings struct {
 func (s *Settings) FromMap(values map[string]interface{}) error {
 	if values == nil {
 		s.ApiKey = ""
+		s.inputFormat = "text"
 		s.OutputFormat = "json"
 		return nil
 	}
 
 	var err error
+
+	if val, ok := values[sInputFormat]; ok && val != nil {
+		s.OutputFormat, err = coerce.ToString(val)
+		if err != nil {
+			return err
+		}
+
+		if s.OutputFormat == "" {
+			s.OutputFormat = "text"
+		}
+	}
 
 	if val, ok := values[sOutputFormat]; ok && val != nil {
 		s.OutputFormat, err = coerce.ToString(val)
@@ -57,9 +72,10 @@ func (s *Settings) FromMap(values map[string]interface{}) error {
 
 // Input defines what data the activity receives
 type Input struct {
-	Model  map[string]interface{} `md:"model, required"`
-	Prompt map[string]interface{} `md:"prompt, required"`
-	Tool   map[string]interface{} `md:"tool, required"`
+	Model        map[string]interface{} `md:"model, required"`
+	Prompt       map[string]interface{} `md:"prompt, required"`
+	Tool         map[string]interface{} `md:"tool, required"`
+	Base64String map[string]interface{} `md:"base64String, required"`
 }
 
 // FromMap populates the struct from the activity's inputs.
@@ -87,6 +103,11 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 		return err
 	}
 
+	i.Base64String, err = coerce.ToObject(values[iBase64String])
+	if err != nil {
+		return err
+	}
+
 	if err != nil {
 		return err
 	}
@@ -97,9 +118,10 @@ func (i *Input) FromMap(values map[string]interface{}) error {
 // ToMap converts the struct to a map.
 func (i *Input) ToMap() map[string]interface{} {
 	return map[string]interface{}{
-		iModel:  i.Model,
-		iPrompt: i.Prompt,
-		iTool:   i.Tool,
+		iModel:        i.Model,
+		iPrompt:       i.Prompt,
+		iTool:         i.Tool,
+		iBase64String: i.Base64String,
 	}
 }
 
