@@ -73,6 +73,10 @@
       "name": "tool",
       "type": "string",
       "required": false
+    },{
+      "name": "base64String",
+      "type": "string",
+      "required": false
     }
 
   ],
