@@ -27,18 +27,20 @@ Mini Roadmap
 | Graders API                         | Currently out of scope        |
 | Moderrations API                    | Currently out of scope        | 
 
+
 ChatGPT Use Cases 
 -----------------
 
 
 | Client Activity                     | Status                        |
-| ----------- ------------------------| ------------------------------|
+| ----------- ----------------------- | ------------------------------|
 | Text Generation                     | In Dev                        | 
 | Image Generation                    | In Dev                        |
 | Audio Generation                    | Currently out of scope        |
 | Deep Research                       | Currently out of scope        |  
 | Embeddings                          | In Dev                        |
 | Moderation                          | Currently out of scope        |
+
 
 Flogo Example Use Caes 
 ----------------------
