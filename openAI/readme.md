@@ -11,7 +11,8 @@ Mini Roadmap
 ------------
 
 | Client Activity                     | Status                        | OpenAI Go API Library Status  |
-| ----------- ------------------------| ------------------------------| ------------------------------|
+
+| ------------------------------------| ------------------------------| ------------------------------|
 | Responses API                       | In Dev for text and Images    | v1.12.0                       |
 | Images API                          | In Dev for text and Images    | v1.12.0                       |
 | Embedings API                       | In Dev for text and Images    | v1.12.0                       | 
@@ -31,6 +32,7 @@ ChatGPT Use Cases
 
 | Client Activity                     | Status                        |
 | ----------- ------------------------| ------------------------------|
+
 | Text Generation                     | In Dev                        | 
 | Image Generation                    | In Dev                        |
 | Audio Generation                    | Currently out of scope        |
