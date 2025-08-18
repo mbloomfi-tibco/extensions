@@ -10,8 +10,8 @@ The Flogo ChatGPT extesion acts as a client for the APIs exposed from the ChatGP
 Mini Roadmap 
 ------------
 
-| Client Activity                     | Status                        | OpenAI Go API Library Status  |
 
+| Client Activity                     | Status                        | OpenAI Go API Library Status  |
 | ------------------------------------| ------------------------------| ------------------------------|
 | Responses API                       | In Dev for text and Images    | v1.12.0                       |
 | Images API                          | In Dev for text and Images    | v1.12.0                       |
@@ -30,9 +30,9 @@ Mini Roadmap
 ChatGPT Use Cases 
 -----------------
 
+
 | Client Activity                     | Status                        |
 | ----------- ------------------------| ------------------------------|
-
 | Text Generation                     | In Dev                        | 
 | Image Generation                    | In Dev                        |
 | Audio Generation                    | Currently out of scope        |
